@@ -1,0 +1,11 @@
+[Unit]
+Description=Load Raspberry Pi Wi-Fi driver
+Before=wpa_supplicant-nl80211@wlan0.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/modprobe brcmfmac
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

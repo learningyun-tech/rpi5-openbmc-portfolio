@@ -1,0 +1,12 @@
+# Generated OpenBMC/Yocto state (very large)
+work/
+artifacts/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+# Local configuration backups
+/config/local.conf.before-*

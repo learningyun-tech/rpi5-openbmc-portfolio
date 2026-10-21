@@ -1,0 +1,9 @@
+# Copy settings here only when you intentionally want a local override.
+# scripts/build.sh preserves build-rpi5/conf/local-extra.conf across runs.
+
+# Example: limit a small build host. Adjust both values together.
+# BB_NUMBER_THREADS = "8"
+# PARALLEL_MAKE = "-j 8"
+
+# Example: retain work directories for recipe debugging.
+# INHERIT:remove = "rm_work"

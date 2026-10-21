@@ -1,0 +1,17 @@
+[Unit]
+Description=Raspberry Pi 5 OpenBMC sensor and inventory bridge
+After=xyz.openbmc_project.ObjectMapper.service
+Wants=xyz.openbmc_project.ObjectMapper.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rpi5-openbmc-simulator
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+# Reproducible upstream baseline. Update deliberately and validate a full build.
+OPENBMC_REPOSITORY="https://github.com/openbmc/openbmc.git"
+OPENBMC_BRANCH="wrynose"
+OPENBMC_COMMIT="b48d8890dac29b8954f47a8ce17645d5f9897782"
+OPENBMC_RELEASE="Yocto 6.0 (Wrynose)"
