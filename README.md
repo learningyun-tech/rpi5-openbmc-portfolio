@@ -91,7 +91,7 @@ Windows / WSL 2：
 
 把產生的映像複製到自己的 Windows 下載目錄，再於 Raspberry Pi Imager 選擇「Choose OS → Use custom」，指定 `.img`。
 
-完整操作請從 [繁體中文逐步教學](docs/tutorial-zh-TW.md) 開始；若使用
+完整操作請從 [逐步教學](docs/tutorial-zh-TW.md) 開始；若使用
 VMware Ubuntu 24.04，請直接依照
 [VMware Ubuntu 24.04 完整安裝教學](docs/vmware-ubuntu-24.04-install-zh-TW.md)。
 
