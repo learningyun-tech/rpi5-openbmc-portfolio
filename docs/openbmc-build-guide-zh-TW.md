@@ -1,16 +1,8 @@
 # OpenBMC 建置流程解析：Raspberry Pi 5 面試專案
 
-文件整理日期：2026-10-21。本文依作品集中的建置腳本、設定與 recipe 說明「為什麼這樣建置」。另建儲存庫與更新文件不代表重新建置或重新測試；既有實機結果來自原實驗環境，請見[實機驗收報告](interview-closeout-20261014-zh-TW.md)。
+實機結果請見[實機驗收報告](interview-closeout-20261014-zh-TW.md)。
 
-> 已有建置成果、只是更新 GitHub 文件的人，不必執行下面的安裝、configure、build 或燒錄流程。這些步驟是供閱讀、除錯與有意重新建置時使用；沒有執行的步驟不能填成已完成。
-
-## 1. 先用一分鐘說清楚專案
-
-這是把上游 OpenBMC、Raspberry Pi 板級支援和自訂 Yocto layer 整合到 Pi 5 的學習專案。核心展示是：自訂 C++ 服務讀取真實 Linux thermal sysfs 溫度，發布 D-Bus Sensor，再由 bmcweb 提供 Redfish 查詢。
-
-本案不是自己從零寫 Linux 核心或 Broadcom Wi-Fi 驅動，也沒有完成另一台伺服器的電源控制、KCS/eSPI、KVM 或產品級韌體更新。面試時應說明自己的實際操作、整合理解與測試證據，而不是把上游功能都當成自己實作。
-
-建置路徑與執行期資料路徑不同：
+把OpenBMC、Raspberry Pi 支援和自訂 Yocto layer 整合到 Pi 5 的學習專案。核心展示是：自訂 C++ 服務讀取真實 Linux thermal sysfs 溫度，發布 D-Bus Sensor，再由 bmcweb 提供 Redfish 查詢。
 
 ```text
 建置：Ubuntu → OpenBMC + BSP + 自訂 layer → BitBake → ARM64 套件與系統映像
@@ -296,7 +288,7 @@ bitbake-getvar -r systemd PACKAGECONFIG_CONFARGS
 
 警告與錯誤要依退出碼和具體結果判斷；不要把整份日誌有 `error` 字串就直接當作同一個根因。也不要用刪除鎖檔、刪工作樹或隨意修改 bootloader environment 作為第一個修復步驟。
 
-## 13. 建置成功之後，還要驗證什麼？
+## 13. 建置成功後的驗證
 
 這些是不同的驗收關卡：
 
@@ -330,22 +322,7 @@ busctl get-property xyz.openbmc_project.RPi5.Simulator \
 
 HTTPS 要同時驗證可信任憑證與主機名稱；`--resolve` 可把名稱指定到實驗 IP，但不能替代憑證驗證。現有 `scripts/smoke-test.sh` 仍含 `curl -k`，其 TLS 警告不是安全修復；既有憑證驗證證據來自另一組未用 `-k` 的手動查詢。測試時不要公開密碼、PSK、私鑰或 session token。
 
-## 14. 面試常見追問與本案答法
-
-**為什麼不直接在 Pi 用 g++ 編譯？** 單一程式的原生編譯與整套系統整合不同。本案用 Yocto 同時管理工具鏈、函式庫、套件、服務及映像政策；Ubuntu 上的解析回歸測試則是另一種快速驗證。
-
-**我有 recipe，為什麼映像還沒有程式？** recipe 只描述如何建置；還要被目標的相依關係或 image 選進來。依序查 recipe 可見性、實際 build、套件內容、manifest 及 Pi 檔案，不只看 `.bb` 存在。
-
-**systemd enabled 就表示服務正常嗎？** enabled 是啟用政策；active 是當下狀態；程式功能仍要另查資料與日誌。socket activation 的 socket 和被啟動服務，也不是同一個 unit。
-
-**這次修的是 kernel driver 嗎？** 本案 Wi-Fi 修正是把已有模組及載入工具打包，透過 systemd oneshot 執行 modprobe；不是從零實作 brcmfmac。溫度服務則是讀現有 sysfs 的使用者空間程式。
-
-**這份公開原始碼保證能重現舊映像嗎？** 有版本鎖定、設定與操作證據，但尚未從全新 clone 完成一次乾淨環境重建，不能宣稱 bit-for-bit 可重現。燒錄後的密碼、Wi-Fi 與憑證等佈署狀態，也不能當成已內建在 recipe。
-
-**專案還缺什麼？** I2C／SPI 實體周邊通訊、2.4 GHz 問題、部分開機警告、產品更新與長期穩定性等，依驗收報告列為未完成或未驗證；不把支援開關或上游功能寫成已實測成果。
-
-## 15. 更新文件與更新韌體是兩條流程
-
+## 14
 ```text
 只更新說明：修改 Markdown → 檢查差異 → 選定檔案提交 → git push
 修改韌體：修改程式／設定 → 主機測試 → BitBake 建置 → 部署 → Pi 驗證 → 保存證據
@@ -353,7 +330,7 @@ HTTPS 要同時驗證可信任憑證與主機名稱；`--resolve` 可把名稱�
 
 更新本作品集文件不會改變 Pi 正在執行的映像，也不會使既有測試紀錄自動變成新版本的實測結果。日後沿用 `learningyun-tech/rpi5-openbmc-portfolio` 與 `main` 正常提交即可；不需刪除儲存庫、重建 `.git`、清除快取或 force push。
 
-## 16. 參考資料與閱讀順序
+## 15. 參考資料與閱讀順序
 
 以下外部文件可能隨上游更新；本案行為應先對照鎖定版本及有效設定，而非直接套用最新範例。
 
