@@ -1,12 +1,8 @@
 # Raspberry Pi 5 OpenBMC：建置與系統整合作品集
 
-這是一套以版本鎖定設定建置的教學型 OpenBMC 映像：使用 Raspberry Pi 5 當作 BMC
+使用 Raspberry Pi 5 當作 BMC
 開發板，提供 HTTPS Web UI、Redfish、SSH、D-Bus、使用者／網路／事件管理，
 並把 Pi 5 的真實 SoC 溫度發布成 OpenBMC Sensor。
-
-> 這是實驗與學習平台，不是經硬體廠商驗證的產品 BMC。Pi 5 沒有伺服器主機的
-> LPC/KCS、eSPI、KVM 擷取、電源控制與韌體快閃線路；本專案刻意不把這些功能
-> 偽裝成可用。
 
 ## 面試閱讀導覽
 
@@ -14,7 +10,7 @@
 - [系統架構](docs/architecture.md)：C++、D-Bus Sensor、inventory association 與 Redfish 的分工。
 - [實機驗收與已知限制](docs/interview-closeout-20261014-zh-TW.md)：已觀察結果、版本界線與未驗證功能。
 
-本案重點是 Raspberry Pi 5 上的 OpenBMC 建置、部署及使用者空間整合；不是自行開發核心驅動，也不是完整伺服器 BMC 產品。
+本案重點是 Raspberry Pi 5 上的 OpenBMC 建置，不是完整伺服器 BMC 產品。
 
 
 ## 專案成果
@@ -35,22 +31,15 @@
 | Redfish API | 已實測 | Manager、Chassis、CPU Sensor 查詢；詳見實機驗收報告 |
 | SSH / D-Bus / systemd | 已實測 | Ubuntu 對 Pi 的 SSH、D-Bus 屬性及核心服務查詢 |
 | CPU 溫度 Sensor | 已實測 | 真實 sysfs 溫度經 C++、D-Bus 到 Redfish；非同步取樣 |
-| DHCP 網路管理 | 已實測（Wi-Fi） | 5 GHz Wi-Fi 重開機後取得位址；有線 Ethernet 未列入本次驗收 |
+| DHCP 網路管理 | 已實測（Wi-Fi） | 5 GHz Wi-Fi 重開機後取得位址|
 | UART | 已實測 | `ttyAMA10` 開機、登入及除錯 |
-| I2C / SPI | 尚未實測 | 建置設定不等於實體周邊通訊已通過 |
-| 伺服器電源／Reset | ❌ | 需要額外 GPIO 隔離與受控主機 |
+| I2C / SPI | 尚未實測 |
+| 伺服器電源／Reset | ❌ |
 | Host IPMI（KCS/BT） | ❌ | Pi 5 沒有 LPC/eSPI BMC 介面 |
-| KVM / Virtual Media / SOL | ❌ | 需要額外視訊、USB gadget 或主機串列線路 |
-| 線上更新 SD 卡映像 | ❌ | 本映像沒有產品級 A/B 更新配置 |
+| KVM / Virtual Media / SOL | ❌ | 
 
-## 最快開始
-
-建議使用 Ubuntu 24.04 實體 Linux，或 Windows 上的 WSL 2 Ubuntu。建置目錄
-必須位在 Linux 檔案系統，不能放在 WSL 的 `/mnt/c`。Yocto Wrynose 官方文件
-列出的參考資源是至少 140 GiB 可用空間與 32 GiB RAM；核心多、SSD 快會明顯
-縮短第一次建置時間。
-
-第一次取得專案時，先在 Ubuntu 的 Linux 檔案系統建立工作樹；若下列目錄已存在，直接使用既有工作樹，不要覆蓋：
+使用 Ubuntu 24.04 實體 Linux，或 Windows 上的 WSL 2 Ubuntu。建置目錄
+參考資源是至少 140 GiB 可用空間與 32 GiB RAM
 
 ```bash
 mkdir -p ~/src
