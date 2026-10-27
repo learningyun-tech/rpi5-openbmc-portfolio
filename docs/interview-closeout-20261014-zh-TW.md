@@ -50,7 +50,7 @@ cb630c95e153846e2700ccb1411a69634286cb00ad6ab3c6d6fa47116c91c67d
 
 Redfish 的 Sensor ID 與 D-Bus object 名稱不完全相同；應先查詢 Sensor Collection 的 `Members`，再使用其中的 URI，不要自行推測路徑。
 
-## 三分鐘展示順序
+## 展示順序
 
 1. **目標與邊界（30 秒）：** 說明為何用 Pi 5 學習 OpenBMC，並明確區分實驗平台與產品 BMC。
 2. **建置與整合（45 秒）：** 指出 Yocto layer、Wi-Fi driver 的 systemd oneshot、C++ Sensor 服務及 12 項解析測試；展示映像 manifest 與建置成功記錄。
@@ -61,8 +61,6 @@ Redfish 的 Sensor ID 與 D-Bus object 名稱不完全相同；應先查詢 Sens
 
 > 我以現有 OpenBMC、Raspberry Pi BSP 與自訂 Yocto layer，在 Raspberry Pi 5 上進行建置、部署與整合驗證。資料路徑是 Linux thermal sysfs、C++ 服務、D-Bus Sensor 到 Redfish。我實際執行解析測試、映像檢查、microSD 讀回驗證，以及重開機後的 Wi-Fi、SSH 與 Redfish 查詢。這是嵌入式使用者空間的系統整合學習專案，不是自行開發 kernel driver，也不是完整的伺服器 BMC 產品。
 
-## 已知限制與面試答法
-
 - `trace-enable.service` 曾顯示 `Cannot initialize environment`；裝置缺少 `/etc/fw_env.config`。目前只能說這是待處理的開機服務問題，尚未證實完整根因，也未修改 bootloader environment。
 - Broadcom 驅動在 UART 重複輸出 `brcmf_p2p_send_action_frame: Unknown Frame`。已觀察到 Pi 仍可完成 5 GHz Wi-Fi 認證、取得 IP 並提供 SSH／Redfish；應把訊息列為待追蹤的驅動日誌，不宣稱它已修復。
 - 原 2.4 GHz 網路曾在重開機後連線失敗；目前完成重開機驗證的路徑是 5 GHz。2.4 GHz 問題尚未定位，不能宣稱備援切換可用。
@@ -70,6 +68,3 @@ Redfish 的 Sensor ID 與 D-Bus object 名稱不完全相同；應先查詢 Sens
 - 自簽 HTTPS 憑證在實驗網路中以指定 CA 檔驗證；產品化仍需正式憑證、帳號與更新策略。
 - `scripts/smoke-test.sh` 已修正 Sensor URI，並通過 Bash 語法、空白格式與既有靜態／解析測試，但**此修改版尚未完整對 Pi 執行**。它仍使用 `curl -k`，只能視為受限實驗環境中的 API 冒煙測試，不能作為 TLS 憑證驗證通過的證據；上表的 TLS 結果來自另一組不使用 `-k` 的手動查詢。
 - UART 已實測；I²C／SPI 的建置設定或介面啟用，不等於已完成實體周邊讀寫測試。尚未取得本專案 I²C／SPI 實體通訊的驗證輸出。
-- 尚未從全新 Git clone 完成一次乾淨環境重建，也未完成長時間運作、多輪重新開機、故障注入或網路恢復壓力測試；不能宣稱已達量產、完整可重現或長期穩定驗收。
-
-最後交付面試作品時，把實際使用的 commit／layer 版本、上述映像 SHA-256、建置日誌與截短且去識別的實機輸出一併保存。尚未取得的版本記錄或長期穩定度數據不要填成已完成。
