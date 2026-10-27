@@ -6,7 +6,7 @@ Windows 工作區與 Ubuntu 建置目錄是不同副本。展示程式與映像�
 
 ## 專案定位
 
-使用 Yocto 自訂 layer 為 Raspberry Pi 5 建置 ARM64 OpenBMC 映像。自訂 C++ 服務讀取 Linux thermal sysfs 的 Pi 5 SoC／CPU 溫度，轉成 D-Bus Sensor；bmcweb 再透過 Redfish 提供管理查詢。Pi 5 在此是低成本的 BMC 學習平台，不具備真實伺服器的 host power control、KCS/eSPI、KVM 或產品級韌體更新線路。
+使用 Yocto 自訂 layer 為 Raspberry Pi 5 建置 ARM64 OpenBMC 映像。自訂 C++ 服務讀取 Linux thermal sysfs 的 Pi 5 SoC／CPU 溫度，轉成 D-Bus Sensor；bmcweb 再透過 Redfish 提供管理查詢。
 
 ```text
 Pi 5 SoC 溫度 → Linux thermal sysfs → 自訂 C++ 服務 → D-Bus Sensor → bmcweb／Redfish
