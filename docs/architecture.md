@@ -44,7 +44,7 @@ association 包含兩組 tuple：
 Object Mapper 依此建立反向 endpoint；`bmcweb` 查詢 Chassis 的 `all_sensors`
 association，最後生成 Redfish Chassis Sensor collection。
 
-## 為何使用自訂 daemon
+## 使用自訂 daemon
 
 `dbus-sensors` 很適合由 hwmon、I2C 或 Entity Manager 動態配置的產品 Sensor。
 Pi 5 SoC thermal zone 是教學映像一定存在、資料模型單純的來源；小型 daemon 可
@@ -57,7 +57,7 @@ Pi 5 SoC thermal zone 是教學映像一定存在、資料模型單純的來源�
 - bmcweb 的 D-Bus → Redfish 映射
 - Yocto recipe 與 systemd service 整合
 
-日後接入多顆實體 Sensor 時，應優先改用 `dbus-sensors` 與 Entity Manager，而
+日後接入多顆實體 Sensor 時，先改用 `dbus-sensors` 與 Entity Manager，而
 不是把所有驅動邏輯堆進這個示範程式。
 
 ## 映像內容的取捨
