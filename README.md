@@ -128,9 +128,6 @@ Pi 5 thermal_zone ──> rpi5-openbmc-simulator ──> OpenBMC D-Bus
 ## 已知限制
 
 本專案已有 Ubuntu 建置、microSD 部署、Pi 開機、5 GHz Wi-Fi、SSH 與 Redfish 的實測紀錄，範圍與限制見[實機驗收報告](docs/interview-closeout-20261014-zh-TW.md)。
-
-版本鎖定與建置設定有助重建，但尚未從全新 clone 完成乾淨環境重建，不能宣稱已完整驗證可重現或具量產資格。UART 已實測，I2C／SPI 實體通訊及其他未驗證項目維持原標示；更新上游基準後應重新建置及驗證。
-
 遇到問題請看 [疑難排解](docs/troubleshooting-zh-TW.md)。
 
 ## 官方參考資料
